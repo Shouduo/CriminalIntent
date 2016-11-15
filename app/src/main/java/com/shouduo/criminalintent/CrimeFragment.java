@@ -1,6 +1,5 @@
 package com.shouduo.criminalintent;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.support.v4.app.Fragment;
 
 import java.util.UUID;
 
