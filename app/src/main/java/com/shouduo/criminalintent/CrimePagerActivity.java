@@ -1,13 +1,14 @@
 package com.shouduo.criminalintent;
 
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
@@ -36,5 +37,25 @@ public class CrimePagerActivity extends AppCompatActivity {
                 return CrimeFragment.newInstance(crime.getId());
             }
         });
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) {}
+
+            public void onPageSelected(int pos) {
+                Crime crime = mCrimes.get(pos);
+                if (crime.getTitle() != null) {
+                    setTitle(crime.getTitle());
+                }
+            }
+        });
+
+        UUID crimeID = (UUID) getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
+        for (int i = 0; i < mCrimes.size(); i++) {
+            if (mCrimes.get(i).getId().equals(crimeID)) {
+                mViewPager.setCurrentItem(i);
+                break;
+            }
+        }
     }
 }
