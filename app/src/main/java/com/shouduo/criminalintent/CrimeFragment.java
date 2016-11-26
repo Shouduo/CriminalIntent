@@ -11,6 +11,8 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,9 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            if (NavUtils.getParentActivityName(getActivity()) != null) {
+//                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
         }
 
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
@@ -127,15 +131,26 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (NavUtils.getParentActivityName(getActivity()) != null) {
-                    getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+                    NavUtils.navigateUpFromSameTask(getActivity());
                 }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
     }
 }
